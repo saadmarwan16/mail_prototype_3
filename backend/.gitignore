@@ -1,0 +1,15 @@
+# Main project
+*.sqlite3
+venv/
+__pycache__/
+
+# Acconts app
+accounts/__pycache__/
+accounts/migrations/
+
+# Email app
+emails/__pycache__/
+emails/migrations/
+
+# Mail app
+mail/__pycache__/
