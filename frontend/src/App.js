@@ -1,25 +1,41 @@
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
+import Archived from './containers/Archived'
+import Compose from './containers/Compose'
+import Home from './containers/Home'
+import Inbox from './containers/Inbox'
+import Login from './containers/Login'
+import Logout from './containers/Logout'
+import Register from './containers/Register'
+import Sent from './containers/Sent'
+import SingleMail from './containers/SingleMail'
+import Trash from './containers/Trash'
+import NotFound from './components/NotFound'
+import Layout from './hocs/Layout'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import './sass/main.scss'
+
+const App = () => {
+	return (
+		<Router>
+			<Layout>
+				<Switch>
+					<Route exact path="/archive" component={Archived} />
+					<Route exact path="/compose" component={Compose} />
+					<Route exact path="/" component={Home} />
+					<Route exact path="/inbox" component={Inbox} />
+					<Route exact path="/login" component={Login} />
+					<Route exact path="/logout" component={Logout} />
+					<Route exact path="/register" component={Register} />
+					<Route exact path="/sent" component={Sent} />
+					<Route exact path="/inbox/:id" component={SingleMail} />
+					<Route exact path="/trash" component={Trash} />
+					<Route exact path="/trash" component={Trash} />
+					<Route component={NotFound} />
+				</Switch>
+			</Layout>
+		</Router>
+	);
 }
 
 export default App;
