@@ -13,29 +13,34 @@ import Trash from './containers/Trash'
 import NotFound from './components/NotFound'
 import Layout from './hocs/Layout'
 
+import { Provider } from 'react-redux'
+import store from './store'
+
 import './sass/main.scss'
 
 const App = () => {
 	return (
-		<Router>
-			<Layout>
-				<Switch>
-					<Route exact path="/archive" component={Archived} />
-					<Route exact path="/compose" component={Compose} />
-					<Route exact path="/" component={Home} />
-					<Route exact path="/inbox" component={Inbox} />
-					<Route exact path="/login" component={Login} />
-					<Route exact path="/logout" component={Logout} />
-					<Route exact path="/register" component={Register} />
-					<Route exact path="/sent" component={Sent} />
-					<Route exact path="/inbox/:id" component={SingleMail} />
-					<Route exact path="/trash" component={Trash} />
-					<Route exact path="/trash" component={Trash} />
-					<Route component={NotFound} />
-				</Switch>
-			</Layout>
-		</Router>
-	);
+		<Provider store={store}>
+			<Router>
+				<Layout>
+					<Switch>
+						<Route exact path="/archive" component={Archived} />
+						<Route exact path="/compose" component={Compose} />
+						<Route exact path="/" component={Home} />
+						<Route exact path="/inbox" component={Inbox} />
+						<Route exact path="/login" component={Login} />
+						<Route exact path="/logout" component={Logout} />
+						<Route exact path="/register" component={Register} />
+						<Route exact path="/sent" component={Sent} />
+						<Route exact path="/inbox/:id" component={SingleMail} />
+						<Route exact path="/trash" component={Trash} />
+						<Route exact path="/trash" component={Trash} />
+						<Route component={NotFound} />
+					</Switch>
+				</Layout>
+			</Router>
+		</Provider>
+	)
 }
 
-export default App;
+export default App
