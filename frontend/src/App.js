@@ -22,22 +22,21 @@ const App = () => {
 	return (
 		<Provider store={store}>
 			<Router>
-				<Layout>
-					<Switch>
+				<Switch>
+					<Route exact path="/login" component={Login} />
+					<Route exact path="/logout" component={Logout} />
+					<Route exact path="/register" component={Register} />
+					<Layout>
 						<Route exact path="/archive" component={Archived} />
 						<Route exact path="/compose" component={Compose} />
 						<Route exact path="/" component={Home} />
 						<Route exact path="/inbox" component={Inbox} />
-						<Route exact path="/login" component={Login} />
-						<Route exact path="/logout" component={Logout} />
-						<Route exact path="/register" component={Register} />
 						<Route exact path="/sent" component={Sent} />
 						<Route exact path="/inbox/:id" component={SingleMail} />
 						<Route exact path="/trash" component={Trash} />
-						<Route exact path="/trash" component={Trash} />
-						<Route component={NotFound} />
-					</Switch>
-				</Layout>
+					</Layout>
+					<Route component={NotFound} />
+				</Switch>
 			</Router>
 		</Provider>
 	)

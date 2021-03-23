@@ -25,7 +25,7 @@ export const login = (email, password) => async dispatch => {
             payload: res.data
         })
 
-        dispatch({type: (setAlert('Authenticated successfully', 'success'))})
+        dispatch(setAlert('Authenticated successfully', 'success'))
     } catch (err) {
         dispatch({
             type: LOGIN_FAIL
@@ -35,7 +35,7 @@ export const login = (email, password) => async dispatch => {
     }
 }
 
-export const signup = ({ name, email, password, confirmation }) => dispatch => {
+export const signup = ({ name, email, password, confirmation }) => async dispatch => {
     const config = {
         headers: {
             'Content-Type': 'application/json'
