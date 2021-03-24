@@ -4,25 +4,25 @@ import Mailbox from '../components/Mailbox'
 import getMails from '../scripts/getMails'
 import { onMarkClick, onUnmarkClick } from '../scripts/interactionsMail'
 
-const Trash = () => {
+const Archive = () => {
     const [mails, setMails] = useState([])
 
     useEffect(() => {
-        getMails('trash', setMails)
+        getMails('archive', setMails)
     }, [])
 
     return (
         <>
             <Helmet>
-                <title>Trash - Mail</title>
+                <title>Archive - Mail</title>
 
-                <meta name="Access all your trashed mails here" content="Trash page" />
+                <meta name="Access all your archived mails here" content="Archive page" />
             </Helmet>
 
-            <h3 className="main__name">Trash</h3>
+            <h3 className="main__name">Archive</h3>
 
             <Mailbox 
-                mailbox='trash'
+                mailbox='archive'
                 mails={mails} 
                 setMails={setMails} 
                 onMarkClick={onMarkClick} 
@@ -32,4 +32,4 @@ const Trash = () => {
     )
 }
 
-export default Trash
+export default Archive

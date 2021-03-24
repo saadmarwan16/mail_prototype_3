@@ -31,6 +31,8 @@ class ComposeEmailView(APIView):
         recipients = recipients[1]
         compose.send_mail(recipients, self.request.user, Email, set())
 
+        all_emails = Email.objects.all()
+
         return Response({"success": "New email composed successfully."})
 
 
@@ -78,7 +80,6 @@ class SingleEmailView(RetrieveUpdateAPIView):
 
         # Make sure the email update method is allowed
         if not self.single_mail.is_update_method_allowed(data):
-            print(self.single_mail.is_update_method_allowed(data))
             return Response({"error": "The email update method is not allowed."})
 
         # Update email and return success

@@ -1,6 +1,10 @@
 @import 'abstracts/variables.scss';
 
+@import 'base/base';
+
 @import 'components/alert';
 @import 'components/notfound';
 
 @import 'pages/auth.scss';
+@import 'pages/mailbox';
+@import 'pages/singlemail';

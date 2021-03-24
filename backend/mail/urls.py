@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/token/refresh', TokenRefreshView.as_view(), name='token_refresh'),
     path('api/accounts/', include('accounts.urls')),
     path('api/emails/', include('emails.urls')),
+    path('manifest.json', TemplateView.as_view(template_name='manifest.json', content_type='application/json')),
     path('admin/', admin.site.urls),
 ]
 
