@@ -1,0 +1,38 @@
+.main__compose {
+    &__heading, &__sender, &__recipients {
+        color: $color-white;
+    }
+
+    &__sender, &__recipients, &__subject, &__body {
+        &__inner {
+            border: none !important;
+            border-radius: 5px !important;
+            box-shadow: none !important;
+            color: $color-white !important;
+
+            &::placeholder {
+                color: $color-white !important;
+            }
+        }
+    }
+
+    &__sender__inner {
+        background: $color-deep-pink !important;
+    }
+
+    &__recipients__inner, &__subject__inner, &__body__inner {
+        background: $color-medium-pink!important;;
+    }
+
+    &__submit-btn {
+        background: $color-white !important;
+        color: $color-deep-pink !important;
+        border: none !important;
+        box-shadow: none !important;
+
+        &:hover {
+            background: $color-deep-pink !important;
+            color: $color-white !important;
+        }
+    }
+}

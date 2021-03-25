@@ -22,7 +22,8 @@ export const login = (email, password) => async dispatch => {
 
         dispatch({
             type: LOGIN_SUCCESS,
-            payload: res.data
+            payload: res.data,
+            email: email
         })
 
         dispatch(setAlert('Authenticated successfully', 'success'))
@@ -64,5 +65,5 @@ export const signup = ({ name, email, password, confirmation }) => async dispatc
 
 export const logout = () => dispatch => {
     dispatch(setAlert('Logout successful', 'success'))
-    dispatch({ type: LOGOUT })
+    dispatch({ type: LOGOUT, email: null })
 }

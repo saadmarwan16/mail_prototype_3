@@ -44,7 +44,10 @@
         animation-fill-mode: forwards;
         animation-play-state: paused;
 
-        &__sender {
+        &__sender-timestamp {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
             color: $color-white;
         }
 
@@ -69,11 +72,9 @@
                 font-weight: bold;
             }
 
-            &__timestamp, &__icons {
-                color: $color-white;
-            }
-
             &__icons {
+                color: $color-white;
+
                 &__icon {
                     padding: 5px;
                     color: $color-white;

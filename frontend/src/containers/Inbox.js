@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react'
 import { Helmet } from 'react-helmet'
+import { Redirect } from 'react-router-dom'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { logout } from '../actions/auth'
 import Mailbox from '../components/Mailbox'
 import getMails from '../scripts/getMails'
 import { onMarkClick, onUnmarkClick } from '../scripts/interactionsMail'
 
-const Inbox = () => {
+const Inbox = ({ isAuthenticated, logout }) => {
     const [mails, setMails] = useState([])
 
     useEffect(() => {
         getMails('inbox', setMails)
     }, [])
+
+    if (!isAuthenticated) {
+        logout()
+        return <Redirect to="/logout" />
+    }
 
     // const onMouseEnter = (e) => {
     //     e.target.querySelector('.main__mail__content__timestamp').style.display = 'none'
@@ -44,4 +53,13 @@ const Inbox = () => {
     )
 }
 
-export default Inbox
+Inbox.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    logout: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { logout })(Inbox)

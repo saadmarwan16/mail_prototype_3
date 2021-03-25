@@ -1,6 +1,6 @@
 import axios from 'axios'
 
-export function onMarkClick(e, id, action, mails, setMails) {
+export function onMarkClick(target, id, action, mails, setMails) {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -15,15 +15,17 @@ export function onMarkClick(e, id, action, mails, setMails) {
     try {
         axios.put(`http://127.0.0.1:5000/api/emails/email/${id}`, body, config)
         .then(_res => {
-            e.target.style.animationPlayState = 'running'
-            e.target.addEventListener('animationend', () => {
+            if (action === 'read') return
+
+            target.style.animationPlayState = 'running'
+            target.addEventListener('animationend', () => {
                 setMails(mails.filter((mail) => mail.id !== id))
             })
         })
     } catch(_err) {}
 }
 
-export function onUnmarkClick(e, id, action, mails, setMails) {
+export function onUnmarkClick(target, id, action, mails, setMails) {
     const config = {
         headers: {
             'Content-Type': 'application/json',
@@ -38,8 +40,10 @@ export function onUnmarkClick(e, id, action, mails, setMails) {
     try {
         axios.put(`http://127.0.0.1:5000/api/emails/email/${id}`, body, config)
         .then(_res => {
-            e.target.style.animationPlayState = 'running'
-            e.target.addEventListener('animationend', () => {
+            if (action === 'read') return
+
+            target.style.animationPlayState = 'running'
+            target.addEventListener('animationend', () => {
                 setMails(mails.filter((mail) => mail.id !== id))
             })
         })

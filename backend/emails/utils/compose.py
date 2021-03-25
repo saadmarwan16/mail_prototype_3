@@ -36,10 +36,6 @@ class Compose():
                 body=body,
                 read=single_user == user
             )
-            if single_user == user:
-                email.mailbox = 'sent'
-            else:
-                email.mailbox = 'inbox'
             email.save()
             
             for recipient in recipients:

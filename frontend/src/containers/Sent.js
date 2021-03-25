@@ -1,15 +1,24 @@
 import React, { useState, useEffect } from 'react'
+import { Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
+import { logout } from '../actions/auth'
 import Mailbox from '../components/Mailbox'
 import getMails from '../scripts/getMails'
 import { onMarkClick, onUnmarkClick } from '../scripts/interactionsMail'
 
-const Sent = () => {
+const Sent = ({ isAuthenticated, logout }) => {
     const [mails, setMails] = useState([])
 
     useEffect(() => {
         getMails('sent', setMails)
     }, [])
+
+    if (!isAuthenticated) {
+        logout()
+        return <Redirect to="/logout" />
+    }
 
     return (
         <>
@@ -32,4 +41,13 @@ const Sent = () => {
     )
 }
 
-export default Sent
+Sent.propTypes = {
+    isAuthenticated: PropTypes.bool.isRequired,
+    logout: PropTypes.func.isRequired
+}
+
+const mapStateToProps = state => ({
+    isAuthenticated: state.auth.isAuthenticated
+})
+
+export default connect(mapStateToProps, { logout })(Sent)

@@ -6,24 +6,42 @@ import {
     LOGOUT
 } from '../actions/types'
 
+var jwt = require('jsonwebtoken')
+
+const isTokenValid = () => {
+    const token = localStorage.getItem('token')
+    const decodedToken = jwt.decode(token, {complete: true})
+    const dateNow = new Date()
+
+    try {
+        console.log(decodedToken.exp < dateNow.getTime())
+        return decodedToken.exp < dateNow.getTime()
+    } catch(_err) {
+        return null
+    }
+}
+
 const initialState = {
     token: localStorage.getItem('token'),
-    isAuthenticated: null,
-    loading: false
+    isAuthenticated: isTokenValid(),
+    loading: false,
+    email: localStorage.getItem('email')
 }
 
 // eslint-disable-next-line
 export default function(state = initialState, action) {
-    const { type, payload } = action
+    const { type, payload, email } = action
 
     switch(type) {
         case LOGIN_SUCCESS:
             localStorage.setItem('token', payload.access)
+            localStorage.setItem('email', email)
             return {
                 ...state,
                 isAuthenticated: true,
                 loading: false,
-                token: payload.access
+                token: payload.access,
+                email: email
             }
         case SIGNUP_SUCCESS:
             return {
@@ -35,11 +53,13 @@ export default function(state = initialState, action) {
         case LOGIN_FAIL:
         case LOGOUT:
             localStorage.removeItem('token')
+            localStorage.removeItem('email')
             return {
                 ...state,
                 token: null,
                 isAuthenticated: false,
-                loading: false
+                loading: false,
+                email: null
             }
         default:
             return state

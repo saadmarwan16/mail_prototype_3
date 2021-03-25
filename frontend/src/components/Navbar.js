@@ -4,10 +4,10 @@ import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 import { logout } from '../actions/auth'
 
-const Navbar = ({ logout }) => {
+const Navbar = ({ logout, email }) => {
     return (
         <>
-            <h2 className="main__owner-address">foo@example.com</h2>
+            <h2 className="main__owner-address">{email}</h2>
 
             <NavLink className="btn btn-sm btn-outline-primary main__nav-btn" exact to="/inbox">
                 Inbox
@@ -24,7 +24,7 @@ const Navbar = ({ logout }) => {
             <NavLink className="btn btn-sm btn-outline-primary main__nav-btn" to="/trash">
                 Trash
             </NavLink>
-            <Link className="btn btn-sm btn-outline-primary main__logout-btn" to="/login" onClick={logout}>
+            <Link className="btn btn-sm btn-outline-primary main__logout-btn" to="/logout" onClick={logout}>
                 Log Out
             </Link>
 
@@ -34,9 +34,10 @@ const Navbar = ({ logout }) => {
 }
 
 Navbar.propTypes = {
-    logout: PropTypes.func.isRequired
+    logout: PropTypes.func.isRequired,
+    email: PropTypes.string.isRequired
 }
 
-const mapStateToProps = _state => ({})
+const mapStateToProps = state => ({ email: state.auth.email })
 
 export default connect(mapStateToProps, { logout })(Navbar)

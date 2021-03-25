@@ -31,8 +31,6 @@ class ComposeEmailView(APIView):
         recipients = recipients[1]
         compose.send_mail(recipients, self.request.user, Email, set())
 
-        all_emails = Email.objects.all()
-
         return Response({"success": "New email composed successfully."})
 
 

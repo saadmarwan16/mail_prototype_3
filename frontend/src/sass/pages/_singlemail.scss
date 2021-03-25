@@ -1,0 +1,50 @@
+.main {
+    &__commands {
+        border-bottom: 1px solid $color-white;
+
+        &__icon {
+            display: inline-flex;
+            padding: 5px;
+            text-decoration: none !important;
+
+            &__inner {
+                padding: 5px;
+                font-size: 30px !important;
+                color: $color-white;
+
+                &:hover {
+                    color: $color-white !important;
+                    transform: scale(1.25);
+                }
+            }
+        }
+    }
+
+    &__subject-reply {
+        align-items: center;
+        justify-content: space-between;
+        padding: 10px 0 0 10px;
+        margin-bottom: 25px;
+        color: $color-white;
+    }
+
+    &__meta {
+        line-height: 1.5;
+        margin-bottom: 1rem;
+
+        &__sender, &__recipients, &__timestamp {
+            color: $color-white;
+        }
+    }
+
+    &__body {
+        background: rgb(255, 23, 139);
+        padding: 1rem 45% 1rem 1rem;
+        margin: 0;
+
+        &__content {
+            color: white;
+            margin: 0px;
+        }
+    }
+}
