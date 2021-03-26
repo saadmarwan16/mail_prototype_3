@@ -1,3 +1,4 @@
+from django.core.paginator import Paginator
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from rest_framework.generics import ListAPIView, RetrieveUpdateAPIView
@@ -37,15 +38,27 @@ class ComposeEmailView(APIView):
 class MailboxView(ListAPIView):
     """ View the user's mailbox """
 
-    def get(self, request, mailbox, format=None):
+    def get(self, request, mailbox, page_number, format=None):
         check_mailbox = Mailbox(Email, self.request, mailbox)
 
         # Make sure the mailbox is valid
         if not check_mailbox.is_mailbox_valid():
             return Response({"error": "Invalid mailbox."})
 
+        
+        emails = check_mailbox.serialize_data()
 
-        return Response(check_mailbox.serialize_data())
+        paginator = Paginator(object_list=emails, per_page=10, allow_empty_first_page=True)
+        page_object = paginator.get_page(number=page_number)
+
+        results = {
+            "has_more": page_object.has_next(),
+            "next_number": page_object.next_page_number() if page_object.has_next() else None,
+            "body": page_object.object_list
+        }
+
+
+        return Response(results)
 
 
 class SingleEmailView(RetrieveUpdateAPIView):
@@ -63,8 +76,11 @@ class SingleEmailView(RetrieveUpdateAPIView):
         if not email:
             return Response({"error": "Email not found."})
 
-        # Return email contents
+        # Mark email as read and return email contents
+        self.single_mail.update_email({"read": True}, self.request.user, email_id)
+
         return Response(email.serialize())
+
 
     def put(self, request, email_id, format=None):
 

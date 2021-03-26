@@ -1,3 +1,5 @@
+from django.core.paginator import Paginator
+
 class Mailbox():
     """ Returns a mailbox after making sure it is valid """
     
@@ -36,3 +38,6 @@ class Mailbox():
         # Return emails in reverse chronologial order
         emails = queryset.order_by("-timestamp").all()
         return [email.serialize() for email in emails]
+
+    def paginate_data(self):
+        pass

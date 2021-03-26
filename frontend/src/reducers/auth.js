@@ -14,8 +14,7 @@ const isTokenValid = () => {
     const dateNow = new Date()
 
     try {
-        console.log(decodedToken.exp < dateNow.getTime())
-        return decodedToken.exp < dateNow.getTime()
+        return decodedToken.payload.exp < dateNow.getTime()
     } catch(_err) {
         return null
     }

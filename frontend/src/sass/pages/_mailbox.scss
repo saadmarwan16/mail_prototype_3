@@ -32,8 +32,16 @@
         background: $color-white;
     }
 
-    &__name {
+    &__name, &__loading, &__mails-finished {
         color: $color-white;
+    }
+
+    &__loading, &__mails-finished {
+        display: flex;
+        justify-content: center;
+        font-size: 18px;
+        margin-top: 1rem;
+        margin-bottom: 0;
     }
 
     &__mail {

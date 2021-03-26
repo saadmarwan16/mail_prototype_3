@@ -20,6 +20,8 @@ const SingleMail = (props) => {
             try {
                 axios.get(`http://127.0.0.1:5000/api/emails/email/${id}`, config)
                 .then(res => {
+                    res.data.recipients = res.data.recipients.join()
+                    res.data.recipients = res.data.recipients.replace(',', ', ')
                     setEmail(res.data)
                 })
             } catch(_err) {}
@@ -43,15 +45,35 @@ const SingleMail = (props) => {
                             <Link className="main__commands__icon" title="Go back" to={`/${mailbox}`}>
                                 <i className="material-icons main__commands__icon__inner">west</i>
                             </Link>
-                            <Link className="main__commands__icon" title="Delete" to={`/${mailbox}`}>
-                                <i className="material-icons main__commands__icon__inner">delete</i>
-                            </Link>
+
+                            {mailbox === 'archive' ? null : (
+                                <Link className="main__commands__icon" title="Delete" to={`/${mailbox}`}>
+                                    <i className="material-icons main__commands__icon__inner">delete</i>
+                                </Link>
+                            )}
+
+                            {mailbox === 'delete' ? (
+                                <Link className="main__commands__icon" title="Restore from trash" to={`/${mailbox}`}>
+                                    <i className="material-icons main__commands__icon__inner">restore_from_trash</i>
+                                </Link>
+                            ) : null}
+                            
+                            
                             <Link className="main__commands__icon" title="Mark as unread" to={`/${mailbox}`}>
                                 <i className="material-icons main__commands__icon__inner">mark_email_unread</i>
                             </Link>
-                            <Link className="main__commands__icon" title="Archive" to={`/${mailbox}`}>
-                                <i className="material-icons main__commands__icon__inner">archive</i>
-                            </Link>
+
+                            {mailbox === 'trash' || mailbox === 'sent' || mailbox === 'archive' ? null : (
+                                <Link className="main__commands__icon" title="Archive" to={`/${mailbox}`}>
+                                    <i className="material-icons main__commands__icon__inner">archive</i>
+                                </Link>
+                            )}
+
+                            {mailbox === 'archive' ? (
+                                <Link className="main__commands__icon" title="Unarchive" to={`/${mailbox}`}>
+                                    <i className="material-icons main__commands__icon__inner">unarchive</i>
+                                </Link>
+                            ) : null}
                         </div>
                     </div>
                     <div className="row main__subject-reply">

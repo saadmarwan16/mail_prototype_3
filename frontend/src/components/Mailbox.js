@@ -22,29 +22,6 @@ const Mailbox = ({ mailbox, mails, setMails }) => {
             } else if (e.target.innerText === 'mark_email_unread') {
                 onUnmarkClick(target, id, 'read', mails, setMails)
             }
-
-            // switch(e.target.innerText) {
-            //     case 'delete':
-            //         onMarkClick(target, id, 'trashed', mails, setMails)
-            //         return
-            //     case 'restore_from_trash':
-            //         onUnmarkClick(target, id, 'trashed', mails, setMails)
-            //         return
-            //     case 'archive':
-            //         onMarkClick(target, id, 'archived', mails, setMails)
-            //         return
-            //     case 'unarchive':
-            //         onUnmarkClick(target, id, 'archived', mails, setMails)
-            //         return
-            //     case 'mark_email_read':
-            //         onMarkClick(target, id, 'read', mails, setMails)
-            //         return
-            //     case 'mark_email_unread':
-            //         onUnmarkClick(target, id, 'read', mails, setMails)
-            //         return
-            //     default:
-            //         return
-            // }
         }
     }
 
@@ -70,27 +47,46 @@ const Mailbox = ({ mailbox, mails, setMails }) => {
                             </div>
 
                             <div>
-                                {/* <div className="main__mail__content__timestamp">
-                                    <small>{item.timestamp}</small>
-                                </div> */}
-
                                 <div className="main__mail__content__icons">
-                                    <i title="Delete" 
-                                        className="material-icons main__mail__content__icons__icon" 
-                                    >
-                                        delete
-                                    </i>
-                                    <i title="Archive" 
-                                        className="material-icons main__mail__content__icons__icon" 
-                                    >
-                                        archive
-                                    </i>
+                                    {mailbox === 'archive' ? null : (
+                                        <i title="Delete" 
+                                            className="material-icons main__mail__content__icons__icon" 
+                                        >
+                                            delete
+                                        </i>
+                                    )}
+
+                                    {mailbox === 'delete' ? (
+                                        <i title="Restore from trash" 
+                                            className="material-icons main__mail__content__icons__icon"
+                                        >
+                                            restore_from_trash
+                                        </i>
+                                    ) : null}
+
+                                    {mailbox === 'trash' || mailbox === 'sent' || mailbox === 'archive' ? null : (
+                                        <i title="Archive" 
+                                            className="material-icons main__mail__content__icons__icon" 
+                                        >
+                                            archive
+                                        </i>
+                                    )}
+
+                                    {mailbox === 'archive' ? (
+                                        <i title="Unarchive" 
+                                            className="material-icons main__mail__content__icons__icon"
+                                        >
+                                            unarchive
+                                        </i>
+                                    ) : null}
+
                                     <i title="Mark as read" 
                                         className={`material-icons main__mail__content__icons__icon 
                                         ${item.read ? 'hide' : ''}`} 
                                     >
                                         mark_email_read
                                     </i>
+
                                     <i title="Mark as unread" 
                                         className={`material-icons main__mail__content__icons__icon 
                                         ${item.read ? '' : 'hide'}`} 
