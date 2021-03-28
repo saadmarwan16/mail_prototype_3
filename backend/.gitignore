@@ -1,5 +1,6 @@
 # Main project
 *.sqlite3
+.env
 venv/
 __pycache__/
 
@@ -13,3 +14,6 @@ emails/migrations/
 
 # Mail app
 mail/__pycache__/
+
+# Built frontend folder
+frontend/
