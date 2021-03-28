@@ -7,7 +7,7 @@ import { signup } from '../actions/auth'
 import Auth from '../components/Auth'
 import { setAlert } from '../actions/alert'
 
-const Register = ({ setAlert, signup, isAuthenticated, loading }) => {
+const Register = ({ setAlert, signup, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
@@ -58,7 +58,9 @@ const Register = ({ setAlert, signup, isAuthenticated, loading }) => {
         e.preventDefault()
 
         if (password !== confirmation) {
-            setAlert('Passwords do not match', 'error')
+            setAlert('Oops! Passwords do not match', 'danger')
+        } else if (password.length < 8) {
+            setAlert('Oops! Password must contain at least 8 characters', 'danger')
         } else {
             signup({ name, email, password, confirmation })
         }
@@ -79,6 +81,8 @@ const Register = ({ setAlert, signup, isAuthenticated, loading }) => {
             <div className="auth__subsection">
                 <div className="auth__subsection__subsection">
                     <div className="auth__subsection__subsection__form">
+                        <h2 className="auth__subsection__subsection__form__heading">Register</h2>
+
                         <Auth
                             formDetails={formDetails} 
                             submitValue="Register" 
@@ -90,7 +94,7 @@ const Register = ({ setAlert, signup, isAuthenticated, loading }) => {
                             <Link className="auth__subsection__subsection__form__small__link" 
                                 to="/login"
                             >
-                                Register
+                                Login
                             </Link>
                         </small>
                     </div>
@@ -108,7 +112,6 @@ Register.propTypes = {
 
 const mapStateToProps = state => ({
     isAuthenticated: state.auth.isAuthenticated,
-    loading: state.auth.loading
 })
 
 export default connect(mapStateToProps, { setAlert, signup })(Register)

@@ -6,8 +6,6 @@ import PropTypes from 'prop-types'
 import { login } from '../actions/auth'
 import Auth from '../components/Auth'
 
-import Alert from '../Alert'
-
 const Login = ({ login, isAuthenticated }) => {
     const [formData, setFormData] = useState({
         email: '',
@@ -58,15 +56,6 @@ const Login = ({ login, isAuthenticated }) => {
             <div className="auth__subsection">
                 <div className="auth__subsection__subsection">
                     <div className="auth__subsection__subsection__form">
-                        {/* <div className={isErrorMessage ? 'alert alert-danger \
-                            register-login-error-message' : 'alert alert-danger \
-                            register-login-error-message hide'}
-                        >
-                            <strong>Oops!</strong> {errorMessage}
-                        </div> */}
-
-                        <Alert />
-
                         <h2 className="auth__subsection__subsection__form__heading">Login</h2>
 
                         <Auth

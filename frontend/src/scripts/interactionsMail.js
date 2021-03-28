@@ -6,16 +6,25 @@ export function onMarkClick(target, id, action, mails, setMails) {
             'Content-Type': 'application/json',
             'Authorization': `Bearer ${localStorage.getItem('token')}`
         }
-    }
-
+    } 
+    
     const body = JSON.stringify({
-        action: true
+        [action]: true
     })
 
     try {
-        axios.put(`http://127.0.0.1:5000/api/emails/email/${id}`, body, config)
+        axios.put(`${process.env.REACT_APP_API_ROOT_URL}/api/emails/email/${id}`, body, config)
         .then(_res => {
-            if (action === 'read') return
+            if (action === 'read') {
+                for (let i = 0; i < mails.length; i++) {
+                    if (mails[i].id === id) {
+                        const newMails = [...mails]
+                        newMails[i] = {...newMails[i], read: true}
+                        setMails(newMails)
+                        return
+                    }
+                }
+            }
 
             target.style.animationPlayState = 'running'
             target.addEventListener('animationend', () => {
@@ -34,13 +43,22 @@ export function onUnmarkClick(target, id, action, mails, setMails) {
     }
 
     const body = JSON.stringify({
-        action: false
+        [action]: false
     })
 
     try {
-        axios.put(`http://127.0.0.1:5000/api/emails/email/${id}`, body, config)
+        axios.put(`${process.env.REACT_APP_API_ROOT_URL}/api/emails/email/${id}`, body, config)
         .then(_res => {
-            if (action === 'read') return
+            if (action === 'read') {
+                for (let i = 0; i < mails.length; i++) {
+                    if (mails[i].id === id) {
+                        const newMails = [...mails]
+                        newMails[i] = {...newMails[i], read: false}
+                        setMails(newMails)
+                        return
+                    }
+                }
+            }
 
             target.style.animationPlayState = 'running'
             target.addEventListener('animationend', () => {

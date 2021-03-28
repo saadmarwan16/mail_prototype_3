@@ -1,32 +1,47 @@
-import React from 'react'
+import React, { lazy, Suspense } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import Archive from './containers/Archive'
-import Compose from './containers/Compose'
-import Home from './containers/Home'
-import Inbox from './containers/Inbox'
-import Login from './containers/Login'
-import Logout from './containers/Logout'
-import Register from './containers/Register'
-import Sent from './containers/Sent'
-import SingleMail from './containers/SingleMail'
-import Trash from './containers/Trash'
-import NotFound from './components/NotFound'
-import Layout from './hocs/Layout'
+import Loader from 'react-loader-spinner'
 
 import { Provider } from 'react-redux'
 import store from './store'
+import Alert from './Alert'
 
 import './sass/main.scss'
+
+const Archive = lazy(() => import('./containers/Archive'))
+const Compose = lazy(() => import('./containers/Compose'))
+const Home = lazy(() => import('./containers/Home'))
+const Inbox = lazy(() => import('./containers/Inbox'))
+const Login = lazy(() => import('./containers/Login'))
+const Logout = lazy(() => import('./containers/Logout'))
+const Register = lazy(() => import('./containers/Register'))
+const Sent = lazy(() => import('./containers/Sent'))
+const SingleMail = lazy(() => import('./containers/SingleMail'))
+const Trash = lazy(() => import('./containers/Trash'))
+const NotFound = lazy(() => import('./containers/NotFound'))
 
 const App = () => {
 	return (
 		<Provider store={store}>
+			<Alert />
+			
 			<Router>
-				<Switch>
-					<Route exact path="/login" component={Login} />
-					<Route exact path="/logout" component={Logout} />
-					<Route exact path="/register" component={Register} />
-					<Layout>
+				<Suspense 
+					fallback={
+						<div className="main__fallback">
+							<Loader
+								type="Oval"
+								color="#fff"
+								height={40}
+								width={40}
+							/>
+						</div>
+					}
+				>
+					<Switch>
+						<Route exact path="/login" component={Login} />
+						<Route exact path="/logout" component={Logout} />
+						<Route exact path="/register" component={Register} />
 						<Route exact path="/archive" component={Archive} />
 						<Route exact path="/compose" component={Compose} />
 						<Route exact path="/" component={Home} />
@@ -34,9 +49,9 @@ const App = () => {
 						<Route exact path="/sent" component={Sent} />
 						<Route exact path="/:mailbox/:id" component={SingleMail} />
 						<Route exact path="/trash" component={Trash} />
-					</Layout>
-					<Route component={NotFound} />
-				</Switch>
+						<Route component={NotFound} />
+					</Switch>
+				</Suspense>
 			</Router>
 		</Provider>
 	)

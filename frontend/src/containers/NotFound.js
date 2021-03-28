@@ -16,7 +16,7 @@ const NotFound = () => {
             <div className="notfound">
                 <h1 className="notfound__heading">404 Not Found</h1>
                 <p className="notfound__paragraph">
-                    The link you requested does not exist on our website.
+                    We looked up and down but could not find the link you requested
                 </p>
             </div>
         </>

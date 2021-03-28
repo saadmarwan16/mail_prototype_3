@@ -1,13 +1,32 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, Redirect } from 'react-router-dom'
 import { Helmet } from 'react-helmet'
 import axios from 'axios'
+import Layout from '../hocs/Layout'
+import { onMarkClick, onUnmarkClick } from '../scripts/interactionsSingleMail'
 
 const SingleMail = (props) => {
     const id = props.match.params.id
     const mailbox = props.match.params.mailbox
 
     const [email, setEmail] = useState({})
+    const [isActionCompleted, setIsActionCompleted] = useState(false)
+
+    const onIconClick = e => {
+        if (e.target.innerText === 'delete') {
+            onMarkClick(id, 'trashed')
+        } else if (e.target.innerText === 'restore_from_trash') {
+            onUnmarkClick(id, 'trashed')
+        } else if (e.target.innerText === 'archive') {
+            onMarkClick(id, 'archived')
+        } else if (e.target.innerText === 'unarchive') {
+            onUnmarkClick(id, 'archived')
+        } else if (e.target.innerText === 'mark_email_unread') {
+            onUnmarkClick(id, 'read')
+        }
+
+        setIsActionCompleted(true)
+    }
 
     useEffect(() => {
         const fetchEmail = () => {
@@ -18,7 +37,7 @@ const SingleMail = (props) => {
             }
 
             try {
-                axios.get(`http://127.0.0.1:5000/api/emails/email/${id}`, config)
+                axios.get(`${process.env.REACT_APP_API_ROOT_URL}/api/emails/email/${id}`, config)
                 .then(res => {
                     res.data.recipients = res.data.recipients.join()
                     res.data.recipients = res.data.recipients.replace(',', ', ')
@@ -30,8 +49,10 @@ const SingleMail = (props) => {
         fetchEmail()
     }, [id])
 
+    if (isActionCompleted) return <Redirect to={`/${mailbox}`} />
+
     return (
-        <>
+        <Layout>
             <Helmet>
                 <title>{`${email.subject} | ${mailbox.replace(/^\w/, (c) => c.toUpperCase())} - Mail`}</title>
 
@@ -46,33 +67,33 @@ const SingleMail = (props) => {
                                 <i className="material-icons main__commands__icon__inner">west</i>
                             </Link>
 
-                            {mailbox === 'archive' ? null : (
-                                <Link className="main__commands__icon" title="Delete" to={`/${mailbox}`}>
+                            {mailbox === 'archive' || mailbox === 'trash' ? null : (
+                                <button className="main__commands__icon" title="Delete" onClick={onIconClick}>
                                     <i className="material-icons main__commands__icon__inner">delete</i>
-                                </Link>
+                                </button>
                             )}
 
-                            {mailbox === 'delete' ? (
-                                <Link className="main__commands__icon" title="Restore from trash" to={`/${mailbox}`}>
+                            {mailbox === 'trash' ? (
+                                <button className="main__commands__icon" title="Restore from trash" onClick={onIconClick}>
                                     <i className="material-icons main__commands__icon__inner">restore_from_trash</i>
-                                </Link>
+                                </button>
                             ) : null}
                             
                             
-                            <Link className="main__commands__icon" title="Mark as unread" to={`/${mailbox}`}>
+                            <button className="main__commands__icon" title="Mark as unread" onClick={onIconClick}>
                                 <i className="material-icons main__commands__icon__inner">mark_email_unread</i>
-                            </Link>
+                            </button>
 
                             {mailbox === 'trash' || mailbox === 'sent' || mailbox === 'archive' ? null : (
-                                <Link className="main__commands__icon" title="Archive" to={`/${mailbox}`}>
+                                <button className="main__commands__icon" title="Archive" onClick={onIconClick}>
                                     <i className="material-icons main__commands__icon__inner">archive</i>
-                                </Link>
+                                </button>
                             )}
 
                             {mailbox === 'archive' ? (
-                                <Link className="main__commands__icon" title="Unarchive" to={`/${mailbox}`}>
+                                <button className="main__commands__icon" title="Unarchive" onClick={onIconClick}>
                                     <i className="material-icons main__commands__icon__inner">unarchive</i>
-                                </Link>
+                                </button>
                             ) : null}
                         </div>
                     </div>
@@ -94,7 +115,7 @@ const SingleMail = (props) => {
                     </div>
                 </div>
             </div>
-        </>
+        </Layout>
     )
 }
 

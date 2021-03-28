@@ -1,14 +1,22 @@
 .main {
     &__commands {
+        padding-bottom: .5rem;
         border-bottom: 1px solid $color-white;
 
         &__icon {
             display: inline-flex;
-            padding: 5px;
+            padding: 0;
             text-decoration: none !important;
+            background: transparent;
+            border: none !important;
+            box-shadow: none !important;
+
+            &:focus {
+                outline: none;
+            }
 
             &__inner {
-                padding: 5px;
+                padding: 10px;
                 font-size: 30px !important;
                 color: $color-white;
 

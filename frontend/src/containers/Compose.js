@@ -4,14 +4,16 @@ import { Helmet } from 'react-helmet'
 import { connect } from 'react-redux'
 import axios from 'axios'
 import PropTypes from 'prop-types'
+import Layout from '../hocs/Layout'
 import { logout } from '../actions/auth'
+import { setAlert } from '../actions/alert'
 
-const Compose = ({ isAuthenticated, logout, email }) => {
+const Compose = ({ setAlert, isAuthenticated, logout, email }) => {
     const [isSent, setIsSent] = useState(false)
 
     const [formData, setFormData] = useState({
         sender: email,
-        recipients: [],
+        recipients: '',
         subject: '',
         composeBody: ''
     })
@@ -47,20 +49,22 @@ const Compose = ({ isAuthenticated, logout, email }) => {
         })
 
         try {
-            axios.post('http://127.0.0.1:5000/api/emails/compose', body, config)
+            axios.post(`${process.env.REACT_APP_API_ROOT_URL}/api/emails/compose`, body, config)
             .then(res => {
                 if (res.data.success) {
+                    setAlert(res.data.success, 'success')
                     setIsSent(true)
                 } else {
-                    console.log("Failed")
-                    // Do something
+                    setAlert(`Oops! ${res.data.error}`, 'danger')
                 }
             })
-        } catch(_err) {}
+        } catch(_err) {
+            setAlert('Oops! Something went wrong', 'danger')
+        }
     }
 
     return (
-        <>
+        <Layout>
             <Helmet>
                 <title>Compose - Mail</title>
 
@@ -69,13 +73,6 @@ const Compose = ({ isAuthenticated, logout, email }) => {
 
             <div className="main__compose">
                 <h3 className="main__compose__heading">New Email</h3>
-
-                {/* <div className={isErrorMessage ? 'alert alert-danger \
-                    register-login-error-message' : 'alert alert-danger \
-                    register-login-error-message hide'}
-                >
-                    <strong>Oops!</strong> {errorMessage}
-                </div> */}
 
                 <form onSubmit={onSubmit}>
                     <div className="form-group main__compose__sender">
@@ -103,14 +100,15 @@ const Compose = ({ isAuthenticated, logout, email }) => {
                     <input type="submit" className="btn btn-primary main__compose__submit-btn" />
                 </form>
             </div>
-        </>
+        </Layout>
     )
 }
 
 Compose.propTypes = {
     isAuthenticated: PropTypes.bool.isRequired,
     logout: PropTypes.func.isRequired,
-    email: PropTypes.string.isRequired
+    email: PropTypes.string.isRequired,
+    setAlert: PropTypes.func.isRequired
 }
 
 const mapStateToProps = state => ({
@@ -118,4 +116,4 @@ const mapStateToProps = state => ({
     email: state.auth.email
 })
 
-export default connect(mapStateToProps, { logout })(Compose)
+export default connect(mapStateToProps, { setAlert, logout })(Compose)

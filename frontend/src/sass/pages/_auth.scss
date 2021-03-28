@@ -57,12 +57,12 @@
 
                     &__link {
                         color: $color-white;
+                        margin-left: .25rem;
 
                         &:hover {
-                            margin-left: .15em;
                             text-decoration: none;
-                            font-size: 1.05em;
-                            color: white;
+                            font-size: 1.15em;
+                            color: $color-white;
                         }
                     }
                 }

@@ -30,7 +30,7 @@ const Mailbox = ({ mailbox, mails, setMails }) => {
             {mails.map(item => {
                 return (
 
-                    <Link className="main__mail" key={item.id} to={`/${mailbox}/${item.id}`} 
+                    <Link className={`main__mail ${item.read ? 'main__read' : ''}`} key={item.id} to={`/${mailbox}/${item.id}`} 
                         onClick={(e) => onIconClick(e, item.id)}>
                         <div className="main__mail__sender-timestamp">
                             <div className="main__mail__sender-timestamp__sender">{item.sender}</div>
@@ -40,15 +40,15 @@ const Mailbox = ({ mailbox, mails, setMails }) => {
                         </div>
 
                         <div className="main__mail__content">
-                            <div>
-                                <span className="main__mail__content__subject">{item.subject}</span>
-                                <span className="main__mail__content__dash"> - </span>
-                                <span className="main__mail__content__body">{item.body}</span>
+                            <div className="main__mail__content__subject-body">
+                                <span className="main__mail__content__subject-body__subject">{item.subject}</span>
+                                <span className="main__mail__content__subject-body__dash"> - </span>
+                                <span className="main__mail__content__subject-body__body">{item.body}</span>
                             </div>
 
                             <div>
                                 <div className="main__mail__content__icons">
-                                    {mailbox === 'archive' ? null : (
+                                    {mailbox === 'archive' || mailbox === 'trash' ? null : (
                                         <i title="Delete" 
                                             className="material-icons main__mail__content__icons__icon" 
                                         >
@@ -56,7 +56,7 @@ const Mailbox = ({ mailbox, mails, setMails }) => {
                                         </i>
                                     )}
 
-                                    {mailbox === 'delete' ? (
+                                    {mailbox === 'trash' ? (
                                         <i title="Restore from trash" 
                                             className="material-icons main__mail__content__icons__icon"
                                         >

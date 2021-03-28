@@ -18,7 +18,7 @@ export const login = (email, password) => async dispatch => {
     const body = JSON.stringify({ email, password })
 
     try {
-        const res = await axios.post('http://127.0.0.1:5000/api/token/', body, config)
+        const res = await axios.post(`${process.env.REACT_APP_API_ROOT_URL}/api/token/`, body, config)
 
         dispatch({
             type: LOGIN_SUCCESS,
@@ -26,13 +26,13 @@ export const login = (email, password) => async dispatch => {
             email: email
         })
 
-        dispatch(setAlert('Authenticated successfully', 'success'))
+        dispatch(setAlert('Login successful', 'success'))
     } catch (err) {
         dispatch({
             type: LOGIN_FAIL
         })
 
-        dispatch(setAlert('Error Authenticating', 'error'))
+        dispatch(setAlert('Oops! Login failed', 'danger'))
     }
 }
 
@@ -46,7 +46,7 @@ export const signup = ({ name, email, password, confirmation }) => async dispatc
     const body = JSON.stringify({ name, email, password, confirmation })
 
     try {
-        const res = await axios.post('http://127.0.0.1:5000/accounts/signup', body, config)
+        const res = await axios.post(`${process.env.REACT_APP_API_ROOT_URL}/api/accounts/signup`, body, config)
 
         dispatch({
             type: SIGNUP_SUCCESS,
@@ -59,7 +59,7 @@ export const signup = ({ name, email, password, confirmation }) => async dispatc
             type: SIGNUP_FAIL
         })
 
-        dispatch(setAlert('Error Authenticating', 'error'))
+        dispatch(setAlert('Oops! Registration failed', 'danger'))
     }
 }
 

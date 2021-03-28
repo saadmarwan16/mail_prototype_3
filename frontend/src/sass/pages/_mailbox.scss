@@ -18,8 +18,8 @@
         box-shadow: none !important;
 
         &:hover, &.active {
-            background: rgb(255, 23, 139) !important;
-            color: white !important;
+            background: $color-deep-pink !important;
+            color: $color-white !important;
         }
 
         &.active {
@@ -30,6 +30,15 @@
 
     &__seperator {
         background: $color-white;
+    }
+
+    &__empty {
+        color: white;
+        font-size: 1.5rem;
+        height: 50vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
     }
 
     &__name, &__loading, &__mails-finished {
@@ -46,7 +55,8 @@
 
     &__mail {
         text-decoration: none !important;
-        border-bottom: 1px solid white;
+        border-bottom: 1px solid $color-white;
+        background: $color-deep-pink;
         animation-name: remove;
         animation-duration: 0.5s;
         animation-fill-mode: forwards;
@@ -60,11 +70,11 @@
         }
 
         &:first-child {
-            border-top: 1px solid white;
+            border-top: 1px solid $color-white;
         }
 
         &:hover {
-            background: $color-deep-pink;
+            box-shadow: inset 0 0 8px 0px rgba(0, 0, 0, .5);
         }
 
         &__content {
@@ -72,15 +82,24 @@
             align-items: center;
             justify-content: space-between;
 
-            &__subject, &__body, &__dash {
+            &__subject-body {
+                white-space: nowrap;
+                overflow: hidden;
+                text-overflow: ellipsis;
                 color: $color-white;
-            }
 
-            &__subject {
-                font-weight: bold;
+                &__subject, &__body, &__dash {
+                    color: $color-white;
+                }
+    
+                &__subject {
+                    font-weight: bold;
+                }
             }
 
             &__icons {
+                display: flex;
+                flex-wrap: nowrap;
                 color: $color-white;
 
                 &__icon {
@@ -92,12 +111,20 @@
                     }
 
                     &:hover {
-                        color: white !important;
+                        color: $color-white !important;
                         cursor: pointer;
                         transform: scale(1.25);
                     }
                 }
             }
+        }
+    }
+
+    &__read {
+        background: $color-medium-pink;
+
+        &:hover {
+            box-shadow: inset 0 0 8px 0px rgba(0, 0, 0, .5);
         }
     }
 }
